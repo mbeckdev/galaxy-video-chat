@@ -2,7 +2,7 @@ const socket = io('/');
 const videoGrid = document.getElementById('video-grid');
 const myPeer = new Peer(undefined, {
   host: '/',
-  port: '3001',
+  port: '3005',
 });
 const myVideo = document.createElement('video');
 
@@ -11,6 +11,8 @@ myVideo.muted = true;
 
 const peers = {};
 
+// WebRTC (covers mediaDevices and peer connections)
+// for cameras and microphones we use navigator.mediaDevices.getDisplayMedia()
 navigator.mediaDevices
   .getUserMedia({
     video: true,

@@ -6,6 +6,7 @@ const { v4: uuidV4 } = require('uuid');
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
+//app.use(express.static(__dirname + '/../../build'))
 
 app.get('/', (req, res) => {
   res.redirect(`/${uuidV4()}`);
@@ -15,6 +16,7 @@ app.get('/:room', (req, res) => {
   res.render('room', { roomId: req.params.room });
 });
 
+// runs everytime a client connects to our server
 io.on('connection', (socket) => {
   socket.on('join-room', (roomId, userId) => {
     // console.log(roomId, userId);
@@ -30,4 +32,7 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(3000);
+server.listen(3004);
+//server.listen(PORT, ()=>{
+//console.log("Connected to port:" + PORT)
+//})
