@@ -32,7 +32,10 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(3004);
+// server.listen(3004);
+// will use 3004 when testing locally, but will aslo work with heroku
+server.listen(process.env.PORT || 3004);
+
 //server.listen(PORT, ()=>{
 //console.log("Connected to port:" + PORT)
 //})
