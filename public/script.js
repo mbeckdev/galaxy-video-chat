@@ -1,9 +1,12 @@
 const socket = io('/');
 const videoGrid = document.getElementById('video-grid');
-const myPeer = new Peer(undefined, {
-  host: '/',
-  port: '3005',
-});
+
+// const myPeer = new Peer(undefined, {
+//   host: '/',
+//   port: '3005',
+// });
+
+const myPeer = new Peer();
 const myVideo = document.createElement('video');
 
 // mute our mic for ourselves
@@ -33,8 +36,15 @@ navigator.mediaDevices
     });
 
     // new user has joined our room, so we have to send our video stream to them
+    // socket.on('user-connected', (userId) => {
+    //   connectToNewUser(userId, stream);
+    // });
+    // now wrapped in a timeout to fix this issue:
+    //  'when a new user joined, the existing users page are not updated.'
     socket.on('user-connected', (userId) => {
-      connectToNewUser(userId, stream);
+      setTimeout(() => {
+        connectToNewUser(userId, stream);
+      });
     });
   });
 
@@ -44,7 +54,9 @@ socket.on('user-disconnected', (userId) => {
   if (peers[userId]) peers[userId].close();
 });
 
+//when this peer is created:
 myPeer.on('open', (id) => {
+  console.log('My peer ID is = ', id);
   socket.emit('join-room', ROOM_ID, id);
 });
 
