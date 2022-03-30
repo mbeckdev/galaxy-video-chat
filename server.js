@@ -17,6 +17,8 @@ app.get('/:room', (req, res) => {
 });
 
 // runs everytime a client connects to our server
+//   gives a socket instance for each one of them
+//       you can see console.log(socket.id)
 io.on('connection', (socket) => {
   socket.on('join-room', (roomId, userId) => {
     // console.log(roomId, userId);
@@ -28,7 +30,7 @@ io.on('connection', (socket) => {
       // socket.to(roomId).broadcast.emit('user-disconnected', userId);
       socket.to(roomId).emit('user-disconnected', userId);
     });
-    console.log('roomId: ', roomId, ' userId: ', userId);
+    console.log('someone joined - roomId: ', roomId, ' userId: ', userId);
   });
 });
 
